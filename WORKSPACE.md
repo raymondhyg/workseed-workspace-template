@@ -25,8 +25,9 @@ Adoption state: `Applied` for template baseline creation
 1. Read `AGENTS.md`.
 2. Read `workspace-system-manifest.md`.
 3. Read `docs/workspaces/receiver-operating-standard.md`.
-4. Read `workspace-records/README.md`.
-5. Use `workspace-records/**` for adoption, implementation, decision, check, and feedback evidence.
+4. Read `docs/workspaces/initialization-and-core-loading.md`.
+5. Read `workspace-records/README.md`.
+6. Use `workspace-records/**` for adoption, implementation, decision, check, capability loads, and feedback evidence.
 
 ## Progressive Detail Capture
 
@@ -36,6 +37,7 @@ Some details can be filled after the Workspace starts being used. Ask for them i
 - "What is this Workspace trying to accomplish first?"
 - "Which GitHub repository should be the sync source?"
 - "Are required named capabilities such as Prism, Mark, or mira ready for live use yet?"
+- "Do you have a local Core repo, an extracted Core package folder, or a zip package for capability runtime loading?"
 - "Is there any real adapter work, or should adapter state stay mock/read-only?"
 
 ## Where To Write
@@ -49,6 +51,7 @@ Some details can be filled after the Workspace starts being used. Ask for them i
 | Sanitized Core feedback | `workspace-records/feedback/` |
 | Local self-repair evidence | `workspace-records/feedback/` |
 | Verification snapshot | `workspace-records/checks/` |
+| Core capability runtime load | `workspace-records/capability-loads/` |
 | Project work | `projects/starter/**` |
 
 ## Protected Local Surfaces
@@ -78,6 +81,31 @@ Use:
 - `workspace-records/feedback/README.md`
 - `workspace-records/feedback/sanitized-signal-template.md`
 - `workspace-records/feedback/self-repair-record-template.md`
+
+## Core Capability Runtime Loading
+
+This Template already records Core base `ws-core-v0.3.0`, but it does not assume
+that every user can access the private Core GitHub repository.
+
+To install runnable Core capability files from a local Core checkout, extracted
+package folder, or zip package, read:
+
+- `docs/workspaces/initialization-and-core-loading.md`
+
+Then use:
+
+```powershell
+python scripts/utils/install_core_capabilities.py --source-path "<core-folder>" --core-version ws-core-v0.3.0
+```
+
+or:
+
+```powershell
+python scripts/utils/install_core_capabilities.py --zip-path "<core-package.zip>" --core-version ws-core-v0.3.0
+```
+
+Restart or reopen the Workspace in Codex if project agents or skills do not
+appear immediately after file installation.
 
 ## Health Commands
 

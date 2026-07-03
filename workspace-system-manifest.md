@@ -68,6 +68,7 @@ Date aligned: 2026-07-03
 | Adapter boundary | `ws-core-v0.3.0` | Applied as mock/read-only boundary | no real adapter | adoption and decision records |
 | Required Prism/Mark/mira identity boundary | `ws-core-v0.3.0` | Not evaluated | none | manifest and decision record |
 | Built-in feedback interface | `ws-core-v0.3.0` | Applied | Workspace self-repair first; sanitized Core signals only for reusable gaps | feedback records |
+| Core capability runtime loading | any recorded Core package | Not installed by default | install from local repo, extracted package folder, or zip package when needed | `install_core_capabilities.py`, capability-load record, local checks |
 
 ## Upgrade History
 
@@ -84,6 +85,7 @@ Date aligned: 2026-07-03
 | 2026-07-03 | Keep Prism/Mark/mira live use as Not evaluated | Required identities are present; live use needs Workspace-owned evidence and authorization |
 | 2026-07-03 | Keep adapter state Mock/read-only only | No real adapter stage authorized |
 | 2026-07-03 | Keep feedback local-first | Workspace can self-repair; Core receives sanitized reusable signals only |
+| 2026-07-03 | Keep runnable Core agents/skills installable but not assumed | Template can load capability runtime files from a local Core repo, extracted package folder, or zip package; runtime refresh may require reopening Codex |
 
 ## Feedback To WorkSeed Core
 
@@ -100,4 +102,5 @@ These fields may be filled later through natural-language guidance:
 - New Workspace GitHub repository after this template is copied.
 - First project goal under `projects/starter/plan.md` or a renamed project folder.
 - Required named capability live-use decisions for Prism, Mark, and mira.
+- Core package source for installing `.codex/agents/**` and `.agents/skills/**`.
 - Any future real adapter stage.

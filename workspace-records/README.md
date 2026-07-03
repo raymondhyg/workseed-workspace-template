@@ -10,6 +10,7 @@ This folder stores Workspace evidence for Core adoption, implementation, decisio
 | `implementation/` | Technical landing notes |
 | `decisions/` | Workspace-local decisions |
 | `checks/` | Verification snapshots |
+| `capability-loads/` | Records of installed Core runtime capability files |
 | `feedback/` | Sanitized feedback to WorkSeed Core |
 
 Rules:
@@ -20,6 +21,8 @@ Rules:
 - Send Core only reusable gaps, stripped of private Workspace facts.
 - Do not copy from legacy or historical Workspaces.
 - Do not claim product-grade, source-equivalent, or real adapter connection from this fresh package.
+- Do not claim `@prism`, `@mark`, or `@mira` runtime availability until
+  `.codex/agents/**` and `.agents/skills/**` are installed or verified.
 
 ## Progressive Detail Capture
 
@@ -28,6 +31,7 @@ When a missing detail becomes useful, ask one natural-language question, then wr
 - identity and base facts -> `workspace-system-manifest.md`
 - first project goal -> `projects/starter/plan.md`
 - local decision -> `workspace-records/decisions/`
+- Core capability runtime load -> `workspace-records/capability-loads/`
 - reusable Core gap -> `workspace-records/feedback/`
 
 ## Built-In Feedback Interface

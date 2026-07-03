@@ -39,6 +39,44 @@ python scripts/utils/verify_open_box.py
 python scripts/utils/check_workspace_deployment.py
 ```
 
+## 第一次打开时怎么初始化
+
+第一次让 Codex 进入这个 Workspace 时，先不要直接开始项目任务。推荐先使用：
+
+```text
+请按 WorkSeed Workspace 初始化流程开始，先读取 WORKSPACE.md、workspace-system-manifest.md、AGENTS.md、docs/workspaces/initialization-and-core-loading.md 和 workspace-records/README.md，然后只回声确认当前 Core base、Template version、Workspace 身份、私有事实边界，以及是否已安装可运行 Core capability files。
+```
+
+完整提示词在：
+
+```text
+templates/first-workspace-initialization-prompt.md
+```
+
+## 如何加载 Core 能力文件
+
+Template 已经带有 Core 0.3 的接收结构，但不会默认安装所有可运行子智能体和技能文件。
+
+如果你拿到的是本地 Core 仓库、解压后的 Core 包，或别人发来的 zip 包，可以使用：
+
+```powershell
+python scripts/utils/install_core_capabilities.py --source-path "E:\Claude Code Projects\WorkSeed" --core-version ws-core-v0.3.0
+```
+
+或：
+
+```powershell
+python scripts/utils/install_core_capabilities.py --zip-path "D:\Downloads\workseed-core-ws-core-v0.3.0.zip" --core-version ws-core-v0.3.0
+```
+
+安装后如果 `@prism`、`@mark`、`@mira` 这类项目 agent 没有立刻出现，重开 Codex 项目或新开线程刷新。
+
+详细说明见：
+
+```text
+docs/workspaces/initialization-and-core-loading.md
+```
+
 ## 你需要改哪些地方
 
 创建自己的 Workspace 后，通常先改：
