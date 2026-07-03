@@ -1,0 +1,12 @@
+{
+  "generated_by": "scripts/utils/create_workspace_deployment.py",
+  "workspace_name": "WorkSeed Workspace Template",
+  "slug": "starter",
+  "target_path": "E:\\Claude Code Projects\\workseed-workspace-template",
+  "repo": "raymondhyg/workseed-workspace-template",
+  "visibility": "public",
+  "template_version": "workspace-template-v0.1.0",
+  "base_release": "ws-core-v0.3.0",
+  "core_commit": "a5b8b7355e02ef26e51d6af53b2bec28a14d08cb",
+  "date": "2026-07-03"
+}

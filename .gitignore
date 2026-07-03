@@ -1,0 +1,16 @@
+.env
+.env.*
+*.local
+*.log
+raw/
+.raw/
+source/
+source-photos/
+reference-files/
+reference-images/
+private/
+local-private/
+storage_state.json
+node_modules/
+__pycache__/
+.pytest_cache/
