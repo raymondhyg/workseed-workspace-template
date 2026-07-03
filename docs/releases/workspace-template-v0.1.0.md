@@ -1,45 +1,48 @@
 # WorkSeed Workspace Template v0.1.0
 
-Status: Released
+状态：Released
 
-Date: 2026-07-03
+日期：2026-07-03
 
-Base Core release: `ws-core-v0.3.0`
+基础 Core 版本：`ws-core-v0.3.0`
 
-Base Core commit: `a5b8b7355e02ef26e51d6af53b2bec28a14d08cb`
+基础 Core commit：`a5b8b7355e02ef26e51d6af53b2bec28a14d08cb`
 
-Repository: `https://github.com/raymondhyg/workseed-workspace-template`
+仓库：`https://github.com/raymondhyg/workseed-workspace-template`
 
-## Purpose
+## 用途
 
-This release publishes the first usable WorkSeed Workspace Template baseline.
-It is intended for creating new Workspace repositories from a clean receiver
-profile.
+这是第一个公开可用的 WorkSeed Workspace Template 基线。
 
-## Included
+它用于创建新的 WorkSeed Workspace，让使用者可以从一个干净的接收结构开始，而不是直接复制 WorkSeed Core 母系统。
 
+## 包含内容
+
+- `README.md`
 - `WORKSPACE.md`
 - `workspace-system-manifest.md`
 - `workspace-records/**`
 - `docs/workspaces/**`
 - `docs/releases/ws-core-v0.3.0-complete-beta-release.md`
-- local verification scripts under `scripts/utils/**`
-- Workspace feedback interface under `workspace-records/feedback/**`
-- minimal starter project skeleton under `projects/starter/**`
+- `scripts/utils/**`
+- `workspace-records/feedback/**`
+- `projects/starter/**`
 
-## Boundaries
+## 边界
 
-- No customer facts.
-- No raw assets.
-- No credentials.
-- No private links.
-- No real adapter configuration.
-- No external task-system contents.
-- No product-grade or source-equivalent claim.
+- 不包含客户事实。
+- 不包含 raw assets。
+- 不包含 credentials。
+- 不包含 private links。
+- 不包含真实 adapter 配置。
+- 不包含外部任务系统内容。
+- 不声称 product-grade。
+- 不声称 source-equivalent。
+- 不声称 Template v1.0。
 
-## Verification
+## 验证
 
-Run before publishing:
+发布前需要通过：
 
 ```powershell
 python scripts/utils/check_sync.py
@@ -47,7 +50,6 @@ python scripts/utils/verify_open_box.py
 python scripts/utils/check_workspace_deployment.py
 ```
 
-## Decision
+## 结论
 
-`workspace-template-v0.1.0` is an early public template baseline. It is useful
-for new Workspace creation, but it is not Template v1.0.
+`workspace-template-v0.1.0` 是早期公开模板基线。它适合创建新的 Workspace，也适合继续积累真实使用反馈；但它还不是 `v1.0.0` 稳定承诺。

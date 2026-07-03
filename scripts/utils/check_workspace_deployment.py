@@ -57,9 +57,15 @@ REQUIRED_SNIPPETS = {
     ],
     "docs/releases/workspace-template-v0.1.0.md": [
         "WorkSeed Workspace Template v0.1.0",
-        "Base Core release: `ws-core-v0.3.0`",
-        "No customer facts.",
-        "not Template v1.0",
+        "基础 Core 版本：`ws-core-v0.3.0`",
+        "不包含客户事实。",
+        "不声称 Template v1.0。",
+    ],
+    "README.md": [
+        "这是 WorkSeed 的公开 Workspace 模板仓库。",
+        "Core 版本：`ws-core-v0.3.0`",
+        "Template 版本：`workspace-template-v0.1.0`",
+        "Use this template",
     ],
     "workspace-records/feedback/2026-07-03-ws-core-v0.3.0-feedback-interface.md": [
         "Built-In Feedback Interface",
