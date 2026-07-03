@@ -26,6 +26,8 @@ Core package folder, or zip package.
 ## Behavior
 
 - First greeting is routed through a Workspace initialization prompt.
+- The first reply includes a short self-introduction as the Workspace Codex
+  collaborator, not WorkSeed Core itself.
 - The Workspace must echo identity, Core base, Template version, private fact
   boundary, and runtime capability install state.
 - Core runtime capability loading is version-aware and accepts local repo,

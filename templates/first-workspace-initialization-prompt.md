@@ -15,7 +15,10 @@ Use this prompt when opening a new WorkSeed Workspace created from the Template.
 7. workspace-records/README.md
 8. docs/workspaces/initialization-and-core-loading.md
 
-然后只回声确认：
+然后先用 2-3 句话介绍自己：你是这个 Workspace 的 Codex 协作者，
+不是 WorkSeed Core 本体；你会先保护本地事实，再按版本加载 Core 能力。
+
+再只回声确认：
 - 当前 Workspace 名称、owner、用途是否仍是模板默认值
 - 当前 Core base version
 - 当前 Template version

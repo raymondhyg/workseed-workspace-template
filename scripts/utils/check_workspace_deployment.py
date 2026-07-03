@@ -82,6 +82,7 @@ REQUIRED_SNIPPETS = {
     "docs/workspaces/initialization-and-core-loading.md": [
         "Workspace Initialization And Core Loading",
         "First Greeting Prompt",
+        "先用 2-3 句话介绍自己",
         "Loading From A Zip Package",
         "install_core_capabilities.py",
         ".codex/agents/*.toml",
@@ -90,6 +91,7 @@ REQUIRED_SNIPPETS = {
     ],
     "templates/first-workspace-initialization-prompt.md": [
         "docs/workspaces/initialization-and-core-loading.md",
+        "先用 2-3 句话介绍自己",
         "是否已经安装可运行 Core capability files",
         ".codex/agents",
         ".agents/skills",
