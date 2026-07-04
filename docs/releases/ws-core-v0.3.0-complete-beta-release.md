@@ -27,6 +27,32 @@ Release type:
 
 Workspace adoption state: Blocked
 
+## 中文发布摘要
+
+发布版本：`ws-core-v0.3.0`
+
+发布类型：MINOR
+
+主要变化：发布 WorkSeed Core Complete Beta 基线，把 Core 框架、运行脊柱、
+执行真相、电商 substrate、Prism/Mark/mira 命名能力身份、强 Workspace
+profile、source signal、milestone ledger 和 Workspace feedback/patch loop
+纳入一个可版本化的 Core baseline。
+
+采用边界：这是 Core 发布，不等于所有 Workspace 已采用；真实 Workspace 必须
+通过目标 manifest、workspace records、本地检查和读回证据单独采用。
+
+需要人工确认或后补的依赖：Workspace Lab、真实 Workspace 采用、adapter
+连接、外部任务写入和项目私有事实都必须在各自授权边界内另行验证。
+
+没有做：没有在这次 Core 发布动作中运行新的真实 Workspace rollout，没有连接
+真实 adapter，没有创建或更新外部任务。
+
+验证结果：发布记录包含 final release gate、tag、GitHub Release、checker 和
+读回证据。
+
+隐私边界：只发布 Core 能力、模板、规则、节点和验证材料；不复制客户私有材料、
+raw assets、账号状态、敏感接入信息或 Workspace 私有记录。
+
 ## Purpose
 
 This record publishes WorkSeed Core `ws-core-v0.3.0` as the Complete Beta
