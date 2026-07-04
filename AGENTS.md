@@ -33,14 +33,26 @@ First read `WORKSPACE.md`, `workspace-system-manifest.md`, this file,
 Template version, protected local surfaces, and whether `.codex/agents/**` or
 `.agents/skills/**` exist.
 
-If Core capability runtime files are missing, ask whether the user has a local
-Core repo, an extracted Core package folder, or a zip package. Use
-`scripts/utils/install_core_capabilities.py` to install safe reusable runtime
-surfaces only, then record the load under `workspace-records/capability-loads/`.
+If Core capability runtime files are missing, do not auto-scan the computer and
+do not silently use a Core path found in Workspace files. Ask the user where
+the Core zip package is. They can paste a path or drop the zip into the chat.
+If they do not have the package, tell them the access channels: Raymond WeChat
+`18002997691`, or Douyin `@有光蔓延【1688运营】` / ID `289566513` and the fan
+group. Use `scripts/utils/install_core_capabilities.py` to install safe
+reusable runtime surfaces only after explicit confirmation, then record the
+load under `workspace-records/capability-loads/`.
 
 Installing files and refreshing Codex runtime are separate. If `@prism`,
 `@mark`, or `@mira` does not appear after install, restart or reopen the
 Workspace in Codex.
+
+If runtime visibility is checked in a separate test thread, keep this thread
+as the source/control thread. The test thread only verifies runtime visibility
+and must not edit files, execute project work, connect adapters, or write
+external systems. After the test report is available, the source thread reads
+it back, compares it with current Workspace files, updates capability-load
+records only when the evidence still matches, and archives the test thread.
+Use `templates/runtime-visibility-test-thread-prompt.md`.
 
 ## Built-In Feedback Interface
 

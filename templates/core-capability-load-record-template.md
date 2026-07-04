@@ -12,9 +12,16 @@ Core package source:
 
 Source type:
 
-- local Core repo
-- extracted package folder
 - zip package
+- other explicit user-provided package path
+
+Source identity:
+
+User confirmation:
+
+- Core zip location was provided by user:
+- Real install confirmed by user:
+- No auto-scan / no silent Core path reuse:
 
 ## Installed Runtime Surfaces
 
@@ -24,6 +31,28 @@ Source type:
 | `.agents/skills/**` |  |  |
 | supporting docs |  |  |
 | supporting templates |  |  |
+
+## Missing Runtime Surfaces
+
+| Surface | Reason |
+|---|---|
+|  |  |
+
+## Skipped Extra Runtime Surfaces
+
+| Surface | Reason |
+|---|---|
+|  |  |
+
+## Runtime Availability
+
+Runtime availability:
+
+- verified
+- not verified
+- requires reopen/restart
+
+Evidence:
 
 ## Verification
 

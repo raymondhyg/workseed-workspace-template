@@ -11,7 +11,7 @@ Workspace local path: `E:\Claude Code Projects\workseed-workspace-template`
 Workspace remote: `https://github.com/raymondhyg/workseed-workspace-template`
 Workspace entry file: `WORKSPACE.md`
 Workspace records folder: `workspace-records/`
-Template version: `workspace-template-v0.1.0`
+Template version: `workspace-template-v0.1.2`
 
 ## Core Source
 
@@ -22,6 +22,15 @@ Core tag: `ws-core-v0.3.0`
 Current Core base version: `ws-core-v0.3.0`
 Core commit: `a5b8b7355e02ef26e51d6af53b2bec28a14d08cb`
 Date aligned: 2026-07-03
+
+## Current Capability State
+
+| State item | Current value | Meaning |
+|---|---|---|
+| Core awareness | `ws-core-v0.3.0` recorded | Template knows which Core baseline it is designed to receive |
+| Concrete Core runtime files | `Not installed by default` | `.codex/agents/**` and `.agents/skills/**` must be installed from Core or a Core package |
+| Runtime availability | `Not verified` | Codex must verify project agents/skills from this Workspace as the active project |
+| User-facing claim | Receiver ready, not capability-ready | Do not claim Prism, Mark, mira, or other concrete Core abilities are usable before install and verification |
 
 ## File Ownership
 
@@ -86,6 +95,7 @@ Date aligned: 2026-07-03
 | 2026-07-03 | Keep adapter state Mock/read-only only | No real adapter stage authorized |
 | 2026-07-03 | Keep feedback local-first | Workspace can self-repair; Core receives sanitized reusable signals only |
 | 2026-07-03 | Keep runnable Core agents/skills installable but not assumed | Template can load capability runtime files from a local Core repo, extracted package folder, or zip package; runtime refresh may require reopening Codex |
+| 2026-07-04 | Standardize runtime visibility test-thread closure | A narrow test thread may verify runtime visibility; the source thread must read back, confirm current Workspace state, update records, and archive the test thread |
 
 ## Feedback To WorkSeed Core
 
@@ -103,4 +113,5 @@ These fields may be filled later through natural-language guidance:
 - First project goal under `projects/starter/plan.md` or a renamed project folder.
 - Required named capability live-use decisions for Prism, Mark, and mira.
 - Core package source for installing `.codex/agents/**` and `.agents/skills/**`.
+- Runtime visibility test-thread evidence when the source thread cannot verify project agent visibility directly.
 - Any future real adapter stage.

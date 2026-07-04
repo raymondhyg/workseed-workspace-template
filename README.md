@@ -1,4 +1,4 @@
-# WorkSeed Workspace Template v0.1.0
+# WorkSeed Workspace Template v0.1.2
 
 这是 WorkSeed 的公开 Workspace 模板仓库。
 
@@ -7,13 +7,23 @@
 基础来源：
 
 - Core 版本：`ws-core-v0.3.0`
-- Template 版本：`workspace-template-v0.1.0`
+- Template 版本：`workspace-template-v0.1.2`
+- 当前能力状态：`Core-aware / not capability-installed by default`
+
+WorkSeed Core 是持续迭代的能力核心。这个 Template 只记录当前基线和加载
+路径；你的 Workspace 需要用本地记录证明自己实际加载了哪个 Core 版本、哪些
+agent/skill/runtime 文件，以及运行时是否已经可见。
+
+简单说：Template 知道 Core 0.3，但 Template 本身不等于已经具备 Core 0.3
+的具体运行能力。只有安装 Core runtime files、通过本地检查，并在当前
+Workspace 的 Codex runtime 中验证可见后，才可以说这些能力可以使用。
 
 ## 这是什么
 
 - 一个 GitHub Template Repository，用来创建新的 WorkSeed Workspace。
 - 一个干净的 Workspace 起点，包含 `WORKSPACE.md`、`workspace-system-manifest.md`、`workspace-records/**`、本地检查脚本和反馈记录结构。
 - 一个不带私有资料的安全基线。
+- 一个知道 Core 基线和安装流程、但默认不预装具体 Core agents/skills 的入口。
 
 ## 这不是什么
 
@@ -44,8 +54,26 @@ python scripts/utils/check_workspace_deployment.py
 第一次让 Codex 进入这个 Workspace 时，先不要直接开始项目任务。推荐先使用：
 
 ```text
-请按 WorkSeed Workspace 初始化流程开始，先读取 WORKSPACE.md、workspace-system-manifest.md、AGENTS.md、docs/workspaces/initialization-and-core-loading.md 和 workspace-records/README.md，然后只回声确认当前 Core base、Template version、Workspace 身份、私有事实边界，以及是否已安装可运行 Core capability files。
+帮我初始化这个 Workspace，并一步一步指引我安装和使用 Core 能力。
 ```
+
+你也可以用更口语的话说：
+
+```text
+安装 Core
+安装能力
+给我指引一下
+告诉我下一步怎么做
+我不知道怎么开始
+```
+
+Codex 应该把这些话都理解成“进入初始化和 Core 能力安装引导”。
+
+注意：这些话只是启动引导，不等于授权立即写入安装。Codex 不要自动扫描，
+也不应该自动扫描
+你的电脑来找 Core，也不应该直接使用文件里写着的旧路径。它应该先问你：
+“Core 压缩包在哪里？你可以贴路径，也可以把 zip 文件丢到聊天框。”
+等你明确给出位置并回复 `确认安装` 后，才正式安装。
 
 完整提示词在：
 
@@ -57,19 +85,56 @@ templates/first-workspace-initialization-prompt.md
 
 Template 已经带有 Core 0.3 的接收结构，但不会默认安装所有可运行子智能体和技能文件。
 
-如果你拿到的是本地 Core 仓库、解压后的 Core 包，或别人发来的 zip 包，可以使用：
+请不要把 `Core 版本：ws-core-v0.3.0` 理解成“这个 Template 已经能直接使用
+Prism、Mark、mira 等具体能力”。它表示 Template 知道要接收哪个 Core 基线，
+并提供安装和验证流程。
+
+推荐方式：使用你已经拿到的 Core 压缩包。你可以把 zip 文件路径发给 Codex，
+也可以直接把 zip 文件拖进聊天框。
 
 ```powershell
-python scripts/utils/install_core_capabilities.py --source-path "E:\Claude Code Projects\WorkSeed" --core-version ws-core-v0.3.0
+python scripts/utils/install_core_capabilities.py --zip-path "D:\Downloads\workseed-core-runtime-ws-core-v0.3.0-standard-20260704.zip" --core-version ws-core-v0.3.0
 ```
 
-或：
+如果你还没有 Core 压缩包，可以通过下面方式获取：
 
-```powershell
-python scripts/utils/install_core_capabilities.py --zip-path "D:\Downloads\workseed-core-ws-core-v0.3.0.zip" --core-version ws-core-v0.3.0
-```
+- 联系 Raymond 微信：`18002997691`
+- 关注抖音 `@有光蔓延【1688运营】`，抖音号：`289566513`
+- 扫码或保存下图，在抖音搜索页扫一扫加入粉丝群获取：
+
+![抖音 @有光蔓延【1688运营】](docs/assets/douyin-youguangmanyan-1688.jpg)
+
+这套 Workspace 未来会在私域范围内免费分享。我们希望需要的人能先成为
+微信好友或群友，方便后续获得更新、互相支持，也为未来可能的商业合作留下
+联系入口。
 
 安装后如果 `@prism`、`@mark`、`@mira` 这类项目 agent 没有立刻出现，重开 Codex 项目或新开线程刷新。
+文件安装、本地检查通过、Codex 运行时可见是三个不同状态，不能互相替代。
+
+如果 Codex 从 `workspace-system-manifest.md` 或示例命令里读到了默认 Core
+路径，不能自动把它当成安装来源。它应该忽略自动扫描结果，先问你 Core
+压缩包在哪里。
+
+重开或新开线程后，用下面的提示词做运行时可见性确认：
+
+```text
+templates/core-runtime-availability-verification-prompt.md
+```
+
+如果当前线程验证不到项目 agent，可以新开一个很窄的测试线程，只验证
+runtime 可见性。测试线程结束后，源线程必须读取测试线程报告，核对当前
+Workspace 文件状态，再决定是否把 capability-load record 写成 `verified`。
+确认无误后，源线程归档测试线程。
+
+测试线程提示词在：
+
+```text
+templates/runtime-visibility-test-thread-prompt.md
+```
+
+注意：运行时可见性必须在你自己的 Workspace 作为 Codex active project 时确认。
+在 WorkSeed Core、Template 仓库或其他 Workspace 里运行检查，不能证明你的
+Workspace 已经看见这些项目 agent/skill。
 
 详细说明见：
 
@@ -90,9 +155,13 @@ docs/workspaces/initialization-and-core-loading.md
 
 ## 版本说明
 
-`v0.1.0` 表示这是第一个公开可用模板基线。
+`v0.1.2` 表示这是 Core capability loading / runtime verification workflow
+候选版本。
 
-它已经可以作为新 Workspace 的起点，但还不是稳定承诺版。Template 是否能到 `v1.0.0`，需要经过更多真实 Workspace 使用、反馈和修正。
+它已经可以作为新 Workspace 的起点，并提供初始化、确认安装、Core runtime
+安装记录、运行时可见性验证路径，以及“测试线程验证、源线程核验、归档测试
+线程”的标准流程；但还不是稳定承诺版。Template 是否能到 `v1.0.0`，需要
+经过更多真实 Workspace 使用、反馈和修正。
 
 ## 与 WorkSeed Core 的关系
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import shutil
 import tempfile
 import zipfile
@@ -12,6 +13,24 @@ ROOT = Path(__file__).resolve().parents[2]
 
 AGENT_GLOB = ".codex/agents/*.toml"
 SKILL_ROOT = ".agents/skills"
+
+EXPECTED_AGENT_FILES = [
+    ".codex/agents/mark.toml",
+    ".codex/agents/mira.toml",
+    ".codex/agents/prism.toml",
+    ".codex/agents/system-maintainer.toml",
+    ".codex/agents/workflow-coach.toml",
+]
+
+EXPECTED_SKILL_DIRS = [
+    ".agents/skills/b2b-strategy",
+    ".agents/skills/background-memory",
+    ".agents/skills/ecommerce-domain",
+    ".agents/skills/image-production",
+    ".agents/skills/prism-writeback",
+    ".agents/skills/reference-learning",
+    ".agents/skills/workflow-coach",
+]
 
 SUPPORT_PATHS = [
     "docs/codex/prism-knowledge-writeback.md",
@@ -35,6 +54,13 @@ FORBIDDEN_PARTS = {
     "private",
     "local-private",
 }
+
+
+class InstallPlan:
+    def __init__(self) -> None:
+        self.installed: list[str] = []
+        self.missing: list[str] = []
+        self.skipped: list[str] = []
 
 
 def fail(message: str) -> None:
@@ -66,26 +92,28 @@ def check_forbidden(rel: Path) -> None:
         fail(f"refusing to copy private/raw path: {safe_rel(rel)}")
 
 
-def copy_file(source_root: Path, rel: Path, installed: list[str], dry_run: bool) -> None:
+def copy_file(source_root: Path, rel: Path, plan: InstallPlan, dry_run: bool) -> None:
     check_forbidden(rel)
     src = source_root / rel
     dst = ROOT / rel
     if not src.exists():
+        plan.missing.append(safe_rel(rel))
         return
-    installed.append(safe_rel(rel))
+    plan.installed.append(safe_rel(rel))
     if dry_run:
         return
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
 
 
-def copy_dir(source_root: Path, rel: Path, installed: list[str], dry_run: bool) -> None:
+def copy_dir(source_root: Path, rel: Path, plan: InstallPlan, dry_run: bool) -> None:
     check_forbidden(rel)
     src = source_root / rel
     dst = ROOT / rel
     if not src.exists():
+        plan.missing.append(safe_rel(rel))
         return
-    installed.append(safe_rel(rel))
+    plan.installed.append(safe_rel(rel))
     if dry_run:
         return
     if dst.exists():
@@ -93,41 +121,69 @@ def copy_dir(source_root: Path, rel: Path, installed: list[str], dry_run: bool) 
     shutil.copytree(src, dst)
 
 
-def install_from_core(core_root: Path, core_version: str, source_label: str, dry_run: bool) -> list[str]:
-    installed: list[str] = []
+def install_from_core(core_root: Path, core_version: str, source_label: str, source_type: str, dry_run: bool) -> InstallPlan:
+    plan = InstallPlan()
 
-    for agent in sorted(core_root.glob(AGENT_GLOB)):
-        copy_file(core_root, agent.relative_to(core_root), installed, dry_run)
+    for rel_text in EXPECTED_AGENT_FILES:
+        copy_file(core_root, Path(rel_text), plan, dry_run)
 
-    skill_root = core_root / SKILL_ROOT
-    if skill_root.exists():
-        for skill_dir in sorted(p for p in skill_root.iterdir() if p.is_dir()):
-            copy_dir(core_root, skill_dir.relative_to(core_root), installed, dry_run)
+    for rel_text in EXPECTED_SKILL_DIRS:
+        copy_dir(core_root, Path(rel_text), plan, dry_run)
 
     for rel_text in SUPPORT_PATHS:
         rel = Path(rel_text)
         src = core_root / rel
         if src.is_dir():
-            copy_dir(core_root, rel, installed, dry_run)
+            copy_dir(core_root, rel, plan, dry_run)
         else:
-            copy_file(core_root, rel, installed, dry_run)
+            copy_file(core_root, rel, plan, dry_run)
 
-    if not installed:
+    for agent in sorted(core_root.glob(AGENT_GLOB)):
+        rel = agent.relative_to(core_root)
+        rel_text = safe_rel(rel)
+        if rel_text not in plan.installed and rel_text not in EXPECTED_AGENT_FILES:
+            plan.skipped.append(rel_text)
+
+    skill_root = core_root / SKILL_ROOT
+    if skill_root.exists():
+        for skill_dir in sorted(p for p in skill_root.iterdir() if p.is_dir()):
+            rel = skill_dir.relative_to(core_root)
+            rel_text = safe_rel(rel)
+            if rel_text not in plan.installed and rel_text not in EXPECTED_SKILL_DIRS:
+                plan.skipped.append(rel_text)
+
+    if not plan.installed:
         fail("no capability runtime files were found to install")
 
     if not dry_run:
-        write_record(core_version, source_label, installed)
+        write_record(core_version, source_label, source_type, plan)
 
-    return installed
+    return plan
 
 
-def write_record(core_version: str, source_label: str, installed: list[str]) -> None:
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def render_lines(items: list[str], empty: str) -> str:
+    if not items:
+        return f"- {empty}"
+    return "\n".join(f"- `{item}`" for item in items)
+
+
+def write_record(core_version: str, source_label: str, source_type: str, plan: InstallPlan) -> None:
     today = dt.date.today().isoformat()
     safe_version = core_version.replace("/", "-").replace("\\", "-")
     record_dir = ROOT / "workspace-records" / "capability-loads"
     record_dir.mkdir(parents=True, exist_ok=True)
     record = record_dir / f"{today}-{safe_version}-capability-load.md"
-    installed_lines = "\n".join(f"- `{item}`" for item in installed)
+    installed_lines = render_lines(plan.installed, "none")
+    missing_lines = render_lines(plan.missing, "none")
+    skipped_lines = render_lines(plan.skipped, "none")
     record.write_text(
         f"""# Core Capability Load Record
 
@@ -137,11 +193,31 @@ Workspace: WorkSeed Workspace
 
 Requested Core version: `{core_version}`
 
+Source type: `{source_type}`
+
 Core package source: `{source_label}`
+
+Source identity: `{source_label}`
 
 ## Installed Runtime Surfaces
 
 {installed_lines}
+
+## Missing Runtime Surfaces
+
+{missing_lines}
+
+## Skipped Extra Runtime Surfaces
+
+{skipped_lines}
+
+## Runtime Availability
+
+Runtime availability: `not verified`
+
+Reason: file installation and Codex runtime refresh are separate states. Reopen
+or restart this Workspace in Codex, then verify whether project agents and
+skills are visible or callable.
 
 ## Verification
 
@@ -184,16 +260,24 @@ def main() -> int:
             with zipfile.ZipFile(zip_path) as archive:
                 archive.extractall(tmp_path)
             core_root = find_core_root(tmp_path)
-            installed = install_from_core(core_root, args.core_version, str(zip_path), args.dry_run)
+            source_label = f"{zip_path} sha256={sha256_file(zip_path)}"
+            plan = install_from_core(core_root, args.core_version, source_label, "zip package", args.dry_run)
     else:
         source_path = Path(args.source_path).expanduser().resolve()
         if not source_path.exists():
             fail(f"source path not found: {source_path}")
         core_root = find_core_root(source_path)
-        installed = install_from_core(core_root, args.core_version, str(source_path), args.dry_run)
+        plan = install_from_core(core_root, args.core_version, str(source_path), "local Core repo or extracted package folder", args.dry_run)
 
     print("[PASS] Core capability runtime install prepared")
-    for item in installed:
+    print("installed:")
+    for item in plan.installed:
+        print(f"- {item}")
+    print("missing:")
+    for item in plan.missing or ["none"]:
+        print(f"- {item}")
+    print("skipped:")
+    for item in plan.skipped or ["none"]:
         print(f"- {item}")
     if args.dry_run:
         print("dry-run only; no files copied")

@@ -12,8 +12,8 @@ Prepare the Template for the full path from first greeting to usable Workspace
 state.
 
 This implementation does not install Core runtime capability files by default.
-It adds the path for a Workspace to load them from a local Core repo, extracted
-Core package folder, or zip package.
+It adds the path for a Workspace to load them from a user-provided Core zip
+package.
 
 ## Landed Surfaces
 
@@ -30,8 +30,10 @@ Core package folder, or zip package.
   collaborator, not WorkSeed Core itself.
 - The Workspace must echo identity, Core base, Template version, private fact
   boundary, and runtime capability install state.
-- Core runtime capability loading is version-aware and accepts local repo,
-  package folder, or zip package input.
+- Core runtime capability loading is version-aware and asks new users for a
+  Core zip package instead of auto-scanning for a Core checkout.
+- If the user does not have the zip, the guidance routes them to Raymond
+  WeChat `18002997691` or Douyin `@有光蔓延【1688运营】` / ID `289566513`.
 - Installed runtime files are recorded under `workspace-records/capability-loads/`.
 - If project agents or skills do not appear after install, the Workspace should
   be restarted or reopened in Codex.
@@ -43,7 +45,6 @@ Core package folder, or zip package.
 | `python scripts/utils/check_workspace_deployment.py` | PASS |
 | `python scripts/utils/check_sync.py` | PASS |
 | `python scripts/utils/verify_open_box.py` | PASS |
-| `python scripts/utils/install_core_capabilities.py --source-path "E:\Claude Code Projects\WorkSeed" --core-version ws-core-v0.3.0 --dry-run` | PASS |
 | zip-package dry-run smoke | PASS |
 
 ## Boundary
