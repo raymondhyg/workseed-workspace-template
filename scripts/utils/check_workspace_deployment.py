@@ -85,7 +85,7 @@ REQUIRED_SNIPPETS = {
         "WorkSeed Workspace Template v0.1.0",
         "## 中文发布摘要",
         "发布版本：`workspace-template-v0.1.0`",
-        "发布类型：Template public baseline",
+        "发布类型：公开模板基线",
         "主要变化：",
         "采用边界：",
         "没有做：",
@@ -106,19 +106,19 @@ REQUIRED_SNIPPETS = {
         "WorkSeed Workspace Template v0.1.2",
         "## 中文发布摘要",
         "发布版本：`workspace-template-v0.1.2`",
-        "发布类型：Template patch",
+        "发布类型：模板补丁发布",
         "主要变化：",
         "采用边界：",
         "没有做：",
         "验证结果：",
         "隐私边界：",
         "Status: published",
-        "runtime visibility workflow hardening",
+        "运行时可见性验证流程",
         "Git tag: `workspace-template-v0.1.2`",
         "GitHub Release: `https://github.com/raymondhyg/workseed-workspace-template/releases/tag/workspace-template-v0.1.2`",
         "019f2b63-310b-7640-af0c-77670017b5c4",
         "019f2b70-8f29-7c61-b9d5-af3d896a1cb1",
-        "source/control thread",
+        "源控制线程",
         "state drift",
         "archive the test thread",
         "This publication creates the `workspace-template-v0.1.2` Template tag",
@@ -138,7 +138,7 @@ REQUIRED_SNIPPETS = {
         "这是 WorkSeed 的公开 Workspace 模板仓库。",
         "Core 版本：`ws-core-v0.3.0`",
         "Template 版本：`workspace-template-v0.1.2`",
-        "当前能力状态：`Core-aware / not capability-installed by default`",
+        "当前能力状态：已知道 Core 基线；默认未安装可运行能力文件",
         "Template 知道 Core 0.3，但 Template 本身不等于已经具备 Core 0.3",
         "确认安装",
         "不等于授权立即写入安装",
@@ -155,7 +155,7 @@ REQUIRED_SNIPPETS = {
         "core-runtime-availability-verification-prompt.md",
         "runtime-visibility-test-thread-prompt.md",
         "源线程必须读取测试线程报告",
-        "Codex active project",
+        "Codex 运行时",
     ],
     "docs/workspaces/initialization-and-core-loading.md": [
         "Workspace Initialization And Core Loading",
@@ -296,9 +296,27 @@ FORBIDDEN_SNIPPETS = [
 ]
 
 
+CHINESE_FIRST_RELEASE_NOTES = [
+    "docs/releases/workspace-template-v0.1.0.md",
+    "docs/releases/workspace-template-v0.1.2.md",
+    "docs/releases/ws-core-v0.3.0-complete-beta-release.md",
+]
+
+
 def fail(message: str) -> None:
     print(f"[FAIL] {message}")
     raise SystemExit(1)
+
+
+def has_chinese_summary_immediately_after_title(text: str) -> bool:
+    lines = text.splitlines()
+    if not lines or not lines[0].startswith("# "):
+        return False
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        return line.strip() == "## 中文发布摘要"
+    return False
 
 
 def main() -> int:
@@ -311,6 +329,11 @@ def main() -> int:
         for snippet in snippets:
             if snippet not in text:
                 fail(f"{rel} missing text: {snippet}")
+
+    for rel in CHINESE_FIRST_RELEASE_NOTES:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        if not has_chinese_summary_immediately_after_title(text):
+            fail(f"{rel} must place Chinese summary immediately after title")
 
     load_records = sorted((ROOT / "workspace-records" / "capability-loads").glob("*-capability-load.md"))
     for record in load_records:

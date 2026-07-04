@@ -4,23 +4,23 @@
 
 发布版本：`workspace-template-v0.1.2`
 
-发布类型：Template patch
+发布类型：模板补丁发布
 
-主要变化：强化 Core 能力加载后的运行时可见性验证流程，明确 source/control
-thread 和 test thread 的职责边界，让最终记录只由源线程在读回测试结果、检查
+主要变化：强化 Core 能力加载后的运行时可见性验证流程，明确源控制线程
+和测试线程的职责边界，让最终记录只由源线程在读回测试结果、检查
 Workspace 状态漂移并重新跑本地检查后写入。
 
-采用边界：这是 Workspace Template 发布，不等于真实 Workspace rollout，也
+采用边界：这是 Workspace Template 发布，不等于真实 Workspace 推出或采用，也
 不等于 Prism/Mark/mira 已完成真实业务使用验证。
 
-需要人工确认或后补的依赖：真实 Workspace 采用、真实业务素材、adapter
+需要人工确认或后补的依赖：真实 Workspace 采用、真实业务素材、适配器
 连接、外部任务系统写入和运行时刷新结果仍需在目标 Workspace 内单独验证。
 
-没有做：没有执行真实 Workspace rollout，没有连接 adapter，没有写入外部
-任务系统，没有加入客户事实、raw assets、敏感接入信息或账号状态。
+没有做：没有执行真实 Workspace 推出或采用，没有连接适配器，没有写入外部
+任务系统，没有加入客户事实、原始素材、敏感接入信息或账号状态。
 
-验证结果：发布记录包含 source/control thread、runtime visibility test
-thread、状态漂移修复、本地检查重跑和测试线程归档证据。
+验证结果：发布记录包含源控制线程、运行时可见性测试线程、状态漂移修复、
+本地检查重跑和测试线程归档证据。
 
 隐私边界：Template 只发布通用初始化、能力加载、运行时可见性验证和记录
 规则；不包含客户私有事实、原始素材、敏感接入信息或真实账号状态。

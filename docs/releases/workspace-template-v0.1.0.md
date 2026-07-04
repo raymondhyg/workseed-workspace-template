@@ -4,18 +4,18 @@
 
 发布版本：`workspace-template-v0.1.0`
 
-发布类型：Template public baseline
+发布类型：公开模板基线
 
 主要变化：发布第一个公开可用的 WorkSeed Workspace Template 基线，让使用者
 可以从干净的 Workspace 接收结构开始，而不是直接复制 WorkSeed Core 母系统。
 
 采用边界：这是早期公开模板基线，不是 Template v1.0，不等于真实客户/项目
-采用，也不等于 source-equivalent 或 product-grade 承诺。
+采用，也不等于源系统等价或产品级成熟承诺。
 
-需要人工确认或后补的依赖：真实 Workspace adoption、真实 adapter 配置、外部
+需要人工确认或后补的依赖：真实 Workspace 采用、真实适配器配置、外部
 任务系统写入和项目私有事实都必须在目标 Workspace 内另行验证。
 
-没有做：没有加入客户事实、raw assets、敏感接入信息、真实 adapter 配置或外部
+没有做：没有加入客户事实、原始素材、敏感接入信息、真实适配器配置或外部
 任务系统内容。
 
 验证结果：发布前需通过 `check_sync.py`、`verify_open_box.py` 和
