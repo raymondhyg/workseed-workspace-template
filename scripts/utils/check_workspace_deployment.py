@@ -302,6 +302,16 @@ CHINESE_FIRST_RELEASE_NOTES = [
     "docs/releases/ws-core-v0.3.0-complete-beta-release.md",
 ]
 
+CHINESE_TECHNICAL_RELEASE_SECTIONS = [
+    "## 中文发布摘要",
+    "## 技术变化",
+    "## 受影响范围",
+    "## 使用或采用方式",
+    "## 验证证据",
+    "## 明确没有做",
+    "## 隐私和边界",
+]
+
 
 def fail(message: str) -> None:
     print(f"[FAIL] {message}")
@@ -334,6 +344,15 @@ def main() -> int:
         text = (ROOT / rel).read_text(encoding="utf-8")
         if not has_chinese_summary_immediately_after_title(text):
             fail(f"{rel} must place Chinese summary immediately after title")
+
+    for rel in [
+        "docs/releases/workspace-template-v0.1.0.md",
+        "docs/releases/workspace-template-v0.1.2.md",
+    ]:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        for section in CHINESE_TECHNICAL_RELEASE_SECTIONS:
+            if section not in text:
+                fail(f"{rel} missing Chinese technical release section: {section}")
 
     load_records = sorted((ROOT / "workspace-records" / "capability-loads").glob("*-capability-load.md"))
     for record in load_records:

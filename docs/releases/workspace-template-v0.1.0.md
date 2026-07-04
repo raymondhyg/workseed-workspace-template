@@ -24,6 +24,44 @@
 隐私边界：Template 只包含干净 starter、Workspace records、Core 接收标准、
 模板和检查脚本；不包含客户私有事实、原始素材、敏感接入信息或账号状态。
 
+## 技术变化
+
+- 提供 `WORKSPACE.md`、`workspace-system-manifest.md` 和 `workspace-records/**` 作为新 Workspace 的基础结构。
+- 带入 Core v0.3.0 接收标准、反馈结构、检查脚本和 starter 项目骨架。
+- 将 Core 母系统和 Workspace 项目仓库分开，避免用户直接复制 Core 作为项目 Workspace。
+
+## 受影响范围
+
+- Template 可继承内容：公开 starter、Workspace 记录结构、Core 接收标准、检查脚本和反馈接口。
+- 新 Workspace 需要补齐内容：真实 Workspace 名称、owner、用途、本地路径、远端仓库和项目计划。
+- 不包含内容：客户事实、原始素材、敏感接入信息、真实适配器配置或外部任务系统内容。
+
+## 使用或采用方式
+
+1. 使用 GitHub 模板创建新仓库。
+2. 克隆到本地并阅读 `WORKSPACE.md`。
+3. 填写 `workspace-system-manifest.md`。
+4. 运行 `check_sync.py`、`verify_open_box.py` 和 `check_workspace_deployment.py`。
+5. 在自己的 Workspace 中开始项目计划和本地记录。
+
+## 验证证据
+
+- Git 标签：`workspace-template-v0.1.0`
+- GitHub Release：已发布并读回。
+- 发布前检查：同步检查、开箱验证和 Workspace deployment 检查。
+
+## 明确没有做
+
+- 没有声明 Template v1.0。
+- 没有声明产品级成熟。
+- 没有替任何真实 Workspace 完成采用。
+- 没有连接适配器或写入外部任务系统。
+
+## 隐私和边界
+
+本发布只包含干净 starter、Workspace records、Core 接收标准、模板和检查脚本；
+不包含客户私有事实、原始素材、敏感接入信息或账号状态。
+
 状态：Released
 
 日期：2026-07-03
