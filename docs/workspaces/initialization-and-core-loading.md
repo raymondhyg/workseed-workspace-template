@@ -204,6 +204,45 @@ Then restart or reopen the Workspace in Codex if project agents or skills do
 not appear immediately. File installation and Codex UI runtime refresh are
 different steps.
 
+## Network Health Before Project Work
+
+If the user reports repeated reconnects, unstable network, proxy trouble, port
+conflict, or mentions `.codex/.env`, do not keep pushing project execution in
+the same unstable thread.
+
+Use:
+
+```text
+docs/workspaces/network-health-and-reconnect-guide.md
+templates/network-health-guidance-thread-prompt.md
+templates/network-health-source-thread-handoff-template.md
+templates/codex-env-network-template.txt
+scripts/utils/check_network_health.py
+workspace-records/checks/network-health-check-template.md
+```
+
+Default flow:
+
+1. Keep the current thread as the source/control thread.
+2. Ask the user to open a narrow network health guidance thread.
+   Use `templates/network-health-source-thread-handoff-template.md` to prepare
+   the source-thread handoff.
+3. In that thread, inspect whether `.codex/.env` exists without exposing
+   secret values.
+   Run `python scripts/utils/check_network_health.py` when a local evidence
+   snapshot is needed.
+4. If missing, guide the user to copy
+   `templates/codex-env-network-template.txt` to `.codex/.env`.
+5. Let the user fill local port or proxy values.
+6. Restart or reopen Codex and verify whether reconnects stop.
+7. Record the result with
+   `workspace-records/checks/network-health-check-template.md`.
+8. Return a short report to the source thread before resuming project work.
+
+Do not commit a real `.codex/.env` file. It is local runtime configuration.
+Do not claim a permanent fix until the user confirms the reconnect problem has
+stopped after restart or reopen.
+
 Runtime availability must be checked from the generated Workspace itself. A
 Core thread, Template thread, projectless thread, or another Workspace cannot
 prove that this Workspace's project agents and skills are visible. In Codex

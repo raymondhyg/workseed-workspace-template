@@ -1,0 +1,22 @@
+# Codex Local Network Environment Template
+#
+# Copy this file to:
+# .codex/.env
+#
+# Do not commit .codex/.env. It is local machine configuration.
+# Fill only the values that your local Codex runtime actually needs.
+
+# Example port controls. Keep blank unless the local runtime or support guide
+# tells you which port to use.
+CODEX_PORT=
+CODEX_API_PORT=
+CODEX_BROWSER_PORT=
+
+# Optional proxy controls. Keep blank unless your network requires them.
+HTTP_PROXY=
+HTTPS_PROXY=
+NO_PROXY=localhost,127.0.0.1
+
+# Local note:
+# After changing .codex/.env, restart or reopen Codex and verify whether
+# reconnects stop in a narrow network health guidance thread.

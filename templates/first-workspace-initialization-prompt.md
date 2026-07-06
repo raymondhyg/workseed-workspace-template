@@ -65,6 +65,10 @@ WorkSeed Core 本体；你会先保护本地事实，再按版本加载 Core 能
 - 如果已经安装但运行时未验证，请引导我使用 templates/core-runtime-availability-verification-prompt.md
 - 运行时可见性只能在当前 Workspace 作为 Codex active project 时验证，不能在 Core 或 Template 线程里代替验证
 - 如果需要新开测试线程验证运行时可见性，请使用 templates/runtime-visibility-test-thread-prompt.md；测试线程只验证，源线程读回、核验、回写记录并归档测试线程
+- 如果我遇到反复重连、网络不稳定、端口或代理问题，请不要继续硬做项目任务；请创建或指引我创建网络健康指南线程，使用 templates/network-health-source-thread-handoff-template.md 和 templates/network-health-guidance-thread-prompt.md
+- 网络健康线程应读取 docs/workspaces/network-health-and-reconnect-guide.md，运行 python scripts/utils/check_network_health.py 做本地只读检查，并指导我用 templates/codex-env-network-template.txt 在本地创建 .codex/.env 来控制端口或代理值
+- 网络健康结果应记录到 workspace-records/checks/network-health-check-template.md，回到源线程前要说明是否已重启/重开 Codex 并由我确认重连是否停止
+- 不要提交真实 .codex/.env；报告里只能列 key 名，不能暴露 secret 或私有网络值
 - 初始化前不修改真实项目事实、不连接 adapter、不写外部任务系统
 
 请最后给我一个“下一步我只需要回复什么”的简单提示。

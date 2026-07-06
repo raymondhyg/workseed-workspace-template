@@ -49,6 +49,15 @@ python scripts/utils/verify_open_box.py
 python scripts/utils/check_workspace_deployment.py
 ```
 
+发布 `workspace-template-v0.1.3` 前还要额外运行：
+
+```powershell
+python scripts/utils/check_workspace_template_v0_1_3_release_preflight.py
+```
+
+这个检查会确认候选文件已经进入发布提交、在 `HEAD` 可见、且没有未提交改动，防止
+tag/archive 时漏掉网络健康能力文件。
+
 ## 第一次打开时怎么初始化
 
 第一次让 Codex 进入这个 Workspace 时，先不要直接开始项目任务。推荐先使用：
@@ -68,6 +77,22 @@ python scripts/utils/check_workspace_deployment.py
 ```
 
 Codex 应该把这些话都理解成“进入初始化和 Core 能力安装引导”。
+
+如果第一次使用时遇到网络不稳定、反复重连、端口或代理问题，先不要硬继续项目
+任务。请让 Codex 先用源线程交接模板准备信息，再创建一个很窄的“网络健康指南线程”：
+
+```text
+templates/network-health-source-thread-handoff-template.md
+templates/network-health-guidance-thread-prompt.md
+```
+
+已验证过的本地修复路线是：在 Workspace 本地创建 `.codex/.env`，用它控制
+Codex 运行时需要的端口或代理相关环境值，然后重启或重新打开 Codex。不要把真实
+`.codex/.env` 提交到仓库；先复制这个模板：
+
+```text
+templates/codex-env-network-template.txt
+```
 
 注意：这些话只是启动引导，不等于授权立即写入安装。Codex 不要自动扫描，
 也不应该自动扫描
@@ -130,6 +155,14 @@ Workspace 文件状态，再决定是否把 capability-load record 写成 `verif
 
 ```text
 templates/runtime-visibility-test-thread-prompt.md
+```
+
+网络健康检查也有源线程交接模板和独立测试线程提示词。它只诊断重连和
+`.codex/.env`，不做项目任务、不安装 Core、不连接 adapter：
+
+```text
+templates/network-health-source-thread-handoff-template.md
+templates/network-health-guidance-thread-prompt.md
 ```
 
 注意：运行时可见性必须在你自己的 Workspace 作为 Codex active project 时确认。

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
 
 REQUIRED_PATHS = [
+    ".gitignore",
     "AGENTS.md",
     "README.md",
     "WORKSPACE.md",
@@ -26,22 +28,37 @@ REQUIRED_PATHS = [
     "docs/workspaces/entry-and-record-standard.md",
     "docs/workspaces/upgrade-playbook.md",
     "docs/workspaces/initialization-and-core-loading.md",
+    "docs/workspaces/network-health-and-reconnect-guide.md",
     "docs/assets/douyin-youguangmanyan-1688.jpg",
     "docs/releases/ws-core-v0.3.0-complete-beta-release.md",
     "docs/sync/starter-github-sync.md",
     "projects/starter/plan.md",
     "scripts/utils/check_sync.py",
     "scripts/utils/verify_open_box.py",
+    "scripts/utils/check_network_health.py",
+    "scripts/utils/check_network_health_redaction.py",
+    "scripts/utils/check_network_health_guidance_replay.py",
+    "scripts/utils/check_workspace_template_v0_1_3_package_readiness.py",
+    "scripts/utils/check_workspace_template_v0_1_3_release_preflight.py",
     "scripts/utils/install_core_capabilities.py",
     "templates/first-workspace-initialization-prompt.md",
     "templates/core-runtime-availability-verification-prompt.md",
     "templates/runtime-visibility-test-thread-prompt.md",
+    "templates/network-health-guidance-thread-prompt.md",
+    "templates/network-health-source-thread-handoff-template.md",
+    "templates/codex-env-network-template.txt",
     "templates/core-capability-load-record-template.md",
+    "workspace-records/checks/network-health-check-template.md",
+    "workspace-records/feedback/network-health-core-feedback-template.md",
     "docs/releases/workspace-template-v0.1.1.md",
     "docs/releases/workspace-template-v0.1.2.md",
+    "docs/releases/workspace-template-v0.1.3-candidate.md",
 ]
 
 REQUIRED_SNIPPETS = {
+    ".gitignore": [
+        ".codex/.env",
+    ],
     "WORKSPACE.md": [
         "Workspace name:",
         "Workspace owner:",
@@ -123,6 +140,25 @@ REQUIRED_SNIPPETS = {
         "archive the test thread",
         "This publication creates the `workspace-template-v0.1.2` Template tag",
     ],
+    "docs/releases/workspace-template-v0.1.3-candidate.md": [
+        "WorkSeed Workspace Template v0.1.3 Candidate",
+        "## 中文发布摘要",
+        "发布版本：`workspace-template-v0.1.3` candidate",
+        "当前状态：本地候选已落地，尚未 tag、尚未 GitHub Release、尚未发布。",
+        "网络健康与重连恢复开箱指引",
+        "templates/network-health-guidance-thread-prompt.md",
+        "templates/network-health-source-thread-handoff-template.md",
+        "templates/codex-env-network-template.txt",
+        "scripts/utils/check_network_health.py",
+        "scripts/utils/check_network_health_guidance_replay.py",
+        "scripts/utils/check_workspace_template_v0_1_3_package_readiness.py",
+        "scripts/utils/check_workspace_template_v0_1_3_release_preflight.py",
+        "workspace-records/checks/network-health-check-template.md",
+        ".codex/.env",
+        "允许本地修复但禁止真实本地 env 被 Git 跟踪",
+        "没有发布 `workspace-template-v0.1.3`",
+        "does not claim publication",
+    ],
     "docs/releases/ws-core-v0.3.0-complete-beta-release.md": [
         "WorkSeed Core Release Note",
         "## 中文发布摘要",
@@ -156,6 +192,11 @@ REQUIRED_SNIPPETS = {
         "runtime-visibility-test-thread-prompt.md",
         "源线程必须读取测试线程报告",
         "Codex 运行时",
+        "网络健康指南线程",
+        "network-health-source-thread-handoff-template.md",
+        "templates/network-health-guidance-thread-prompt.md",
+        "templates/codex-env-network-template.txt",
+        ".codex/.env",
     ],
     "docs/workspaces/initialization-and-core-loading.md": [
         "Workspace Initialization And Core Loading",
@@ -187,6 +228,13 @@ REQUIRED_SNIPPETS = {
         "runtime-visibility-test-thread-prompt.md",
         "The source thread owns the final truth",
         "archive the test thread",
+        "Network Health Before Project Work",
+        "network-health-guidance-thread-prompt.md",
+        "network-health-source-thread-handoff-template.md",
+        "codex-env-network-template.txt",
+        "check_network_health.py",
+        "network-health-check-template.md",
+        ".codex/.env",
     ],
     "templates/first-workspace-initialization-prompt.md": [
         "docs/workspaces/initialization-and-core-loading.md",
@@ -206,6 +254,119 @@ REQUIRED_SNIPPETS = {
         ".agents/skills",
         "core-runtime-availability-verification-prompt.md",
         "runtime-visibility-test-thread-prompt.md",
+        "network-health-guidance-thread-prompt.md",
+        "codex-env-network-template.txt",
+        "check_network_health.py",
+        ".codex/.env",
+    ],
+    "docs/workspaces/network-health-and-reconnect-guide.md": [
+        "Network Health And Reconnect Guide",
+        "repeated reconnects",
+        "网络重连",
+        "network health guidance thread",
+        ".codex/.env",
+        "templates/codex-env-network-template.txt",
+        "templates/network-health-guidance-thread-prompt.md",
+        "templates/network-health-source-thread-handoff-template.md",
+        "Do not commit a real `.codex/.env` file",
+        "python scripts/utils/check_network_health.py",
+        "workspace-records/checks/network-health-check-template.md",
+        "workspace-records/feedback/network-health-core-feedback-template.md",
+        "port or proxy",
+        "restart or reopen Codex",
+        "workspace-records/checks/",
+    ],
+    "templates/network-health-guidance-thread-prompt.md": [
+        "Network Health Guidance Thread Prompt",
+        "Only diagnose network health and reconnect stability",
+        "docs/workspaces/network-health-and-reconnect-guide.md",
+        "templates/codex-env-network-template.txt",
+        "workspace-records/checks/network-health-check-template.md",
+        "workspace-records/feedback/network-health-core-feedback-template.md",
+        "python scripts/utils/check_network_health.py",
+        ".codex/.env",
+        "key names only",
+        "values redacted",
+        "restart or reopen Codex",
+        "no secrets exposed",
+    ],
+    "templates/network-health-source-thread-handoff-template.md": [
+        "Network Health Source Thread Handoff Template",
+        "source/control thread",
+        "Workspace root:",
+        "Observed symptom:",
+        "Workspace-local `.codex/.env` port/proxy control",
+        "python scripts/utils/check_network_health.py",
+        "Do not commit a real `.codex/.env`",
+        "Return to the source thread with:",
+        "stability result: fixed / improved / not fixed / blocked / not verified",
+        "workspace-records/feedback/network-health-core-feedback-template.md",
+    ],
+    "templates/codex-env-network-template.txt": [
+        "Copy this file to:",
+        ".codex/.env",
+        "Do not commit .codex/.env",
+        "CODEX_PORT=",
+        "CODEX_API_PORT=",
+        "CODEX_BROWSER_PORT=",
+        "HTTP_PROXY=",
+        "HTTPS_PROXY=",
+        "NO_PROXY=localhost,127.0.0.1",
+    ],
+    "scripts/utils/check_network_health.py": [
+        "NETWORK_KEYS",
+        "CODEX_PORT",
+        "values_redacted",
+        "No env values printed.",
+        "workspace-records/checks/network-health-check-template.md",
+        "--env-path",
+    ],
+    "scripts/utils/check_network_health_redaction.py": [
+        "Network health redaction passed",
+        "local-redaction-probe.invalid",
+        "SHOULD_NOT_PRINT",
+        "values_redacted",
+    ],
+    "scripts/utils/check_network_health_guidance_replay.py": [
+        "Resolution Loop",
+        "Network health guidance replay passed",
+        "not fixed",
+        "blocked",
+    ],
+    "scripts/utils/check_workspace_template_v0_1_3_package_readiness.py": [
+        "Workspace Template v0.1.3 package readiness passed",
+        "PACKAGE_REQUIRED_PATHS",
+        "FORBIDDEN_TRACKED_PATHS",
+        ".codex/.env",
+    ],
+    "scripts/utils/check_workspace_template_v0_1_3_release_preflight.py": [
+        "Workspace Template v0.1.3 release preflight passed",
+        "RELEASE_REQUIRED_TRACKED_PATHS",
+        "exist in HEAD before tag/archive",
+        "no uncommitted changes",
+        ".codex/.env",
+    ],
+    "workspace-records/checks/network-health-check-template.md": [
+        "Network Health Check Record",
+        "reconnect count",
+        ".codex/.env",
+        "values redacted: yes",
+        "python scripts/utils/check_network_health.py",
+        "Resolution Loop",
+        "final state: fixed / improved / not fixed / blocked / not verified",
+        "no real `.codex/.env` committed",
+        "Core feedback needed",
+        "workspace-records/feedback/network-health-core-feedback-template.md",
+    ],
+    "workspace-records/feedback/network-health-core-feedback-template.md": [
+        "Network Health Core Feedback Template",
+        "not fixed",
+        "blocked",
+        "recognized key names only",
+        "values redacted: yes",
+        "no env values included",
+        "no port/proxy values included",
+        "Requested Core Decision",
     ],
     "templates/core-runtime-availability-verification-prompt.md": [
         "Core Runtime Availability Verification Prompt",
@@ -318,6 +479,17 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
+def is_git_tracked(rel: str) -> bool:
+    result = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", rel],
+        cwd=ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        text=True,
+    )
+    return result.returncode == 0
+
+
 def has_chinese_summary_immediately_after_title(text: str) -> bool:
     lines = text.splitlines()
     if not lines or not lines[0].startswith("# "):
@@ -330,6 +502,9 @@ def has_chinese_summary_immediately_after_title(text: str) -> bool:
 
 
 def main() -> int:
+    if is_git_tracked(".codex/.env"):
+        fail(".codex/.env must stay local and untracked")
+
     for rel in REQUIRED_PATHS:
         if not (ROOT / rel).exists():
             fail(f"missing required path: {rel}")
