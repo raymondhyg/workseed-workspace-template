@@ -15,6 +15,7 @@ AGENT_GLOB = ".codex/agents/*.toml"
 SKILL_ROOT = ".agents/skills"
 
 EXPECTED_AGENT_FILES = [
+    ".codex/agents/capability-radar.toml",
     ".codex/agents/mark.toml",
     ".codex/agents/mira.toml",
     ".codex/agents/prism.toml",
@@ -25,6 +26,7 @@ EXPECTED_AGENT_FILES = [
 EXPECTED_SKILL_DIRS = [
     ".agents/skills/b2b-strategy",
     ".agents/skills/background-memory",
+    ".agents/skills/capability-radar",
     ".agents/skills/ecommerce-domain",
     ".agents/skills/image-production",
     ".agents/skills/prism-writeback",

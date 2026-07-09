@@ -20,7 +20,7 @@ def main() -> int:
     run([sys.executable, "scripts/utils/check_workspace_deployment.py"])
     run([sys.executable, "scripts/utils/check_network_health_redaction.py"])
     run([sys.executable, "scripts/utils/check_network_health_guidance_replay.py"])
-    run([sys.executable, "scripts/utils/check_workspace_template_v0_1_3_package_readiness.py"])
+    run([sys.executable, "scripts/utils/check_workspace_template_v0_1_4_package_readiness.py"])
     print("[PASS] Workspace open-box verification passed")
     return 0
 

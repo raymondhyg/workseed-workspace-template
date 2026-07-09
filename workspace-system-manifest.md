@@ -11,23 +11,23 @@ Workspace local path: `E:\Claude Code Projects\workseed-workspace-template`
 Workspace remote: `https://github.com/raymondhyg/workseed-workspace-template`
 Workspace entry file: `WORKSPACE.md`
 Workspace records folder: `workspace-records/`
-Template version: `workspace-template-v0.1.2`
+Template version: `workspace-template-v0.1.4`
 
 ## Core Source
 
 Core system: WorkSeed Core
 Core local source: `E:\Claude Code Projects\WorkSeed`
 Core remote source: `https://github.com/raymondhyg/workseed-core`
-Core tag: `ws-core-v0.3.0`
-Current Core base version: `ws-core-v0.3.0`
-Core commit: `a5b8b7355e02ef26e51d6af53b2bec28a14d08cb`
-Date aligned: 2026-07-03
+Core tag: `ws-core-v0.3.1`
+Current Core base version: `ws-core-v0.3.1`
+Core commit: `ac576bbf347ef756bfcbf6d8fb2ce03b10646dcc`
+Date aligned: 2026-07-09
 
 ## Current Capability State
 
 | State item | Current value | Meaning |
 |---|---|---|
-| Core awareness | `ws-core-v0.3.0` recorded | Template knows which Core baseline it is designed to receive |
+| Core awareness | `ws-core-v0.3.1` recorded | Template knows which Core baseline it is designed to receive |
 | Concrete Core runtime files | `Not installed by default` | `.codex/agents/**` and `.agents/skills/**` must be installed from Core or a Core package |
 | Runtime availability | `Not verified` | Codex must verify project agents/skills from this Workspace as the active project |
 | User-facing claim | Receiver ready, not capability-ready | Do not claim Prism, Mark, mira, or other concrete Core abilities are usable before install and verification |
@@ -56,9 +56,10 @@ Date aligned: 2026-07-03
 
 | Capability | Status | Reason | Core version |
 |---|---|---|---|
-| Prism | Not evaluated | Required identity; live writeback requires Workspace-owned evidence | `ws-core-v0.3.0` |
-| Mark | Not evaluated | Required identity; live strategy briefs require Workspace-owned evidence | `ws-core-v0.3.0` |
-| mira | Not evaluated | Required identity; live visual prompts/QA require Workspace-owned evidence and tool authorization | `ws-core-v0.3.0` |
+| Prism | Not evaluated | Required identity; live writeback requires Workspace-owned evidence | `ws-core-v0.3.1` |
+| Mark | Not evaluated | Required identity; live strategy briefs require Workspace-owned evidence | `ws-core-v0.3.1` |
+| mira | Not evaluated | Required identity; live visual prompts/QA require Workspace-owned evidence and tool authorization | `ws-core-v0.3.1` |
+| capability-radar | Not evaluated | Required source-capability scanning identity; live use requires Workspace-owned evidence and runtime visibility | `ws-core-v0.3.1` |
 
 ## Adapter State
 
@@ -71,12 +72,12 @@ Date aligned: 2026-07-03
 
 | Capability | Core release | State | Local override | Verification |
 |---|---|---|---|---|
-| Workspace receiver operating standard | `ws-core-v0.3.0` | Applied | none | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
-| Workspace entry and record standard | `ws-core-v0.3.0` | Applied | none | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
-| Core release adoption tracking | `ws-core-v0.3.0` | Applied | fresh Workspace package | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
-| Adapter boundary | `ws-core-v0.3.0` | Applied as mock/read-only boundary | no real adapter | adoption and decision records |
-| Required Prism/Mark/mira identity boundary | `ws-core-v0.3.0` | Not evaluated | none | manifest and decision record |
-| Built-in feedback interface | `ws-core-v0.3.0` | Applied | Workspace self-repair first; sanitized Core signals only for reusable gaps | feedback records |
+| Workspace receiver operating standard | `ws-core-v0.3.1` | Applied | none | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
+| Workspace entry and record standard | `ws-core-v0.3.1` | Applied | none | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
+| Core release adoption tracking | `ws-core-v0.3.1` | Applied | fresh Workspace package | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
+| Adapter boundary | `ws-core-v0.3.1` | Applied as mock/read-only boundary | no real adapter | adoption and decision records |
+| Required Prism/Mark/mira identity boundary | `ws-core-v0.3.1` | Not evaluated | none | manifest and decision record |
+| Built-in feedback interface | `ws-core-v0.3.1` | Applied | Workspace self-repair first; sanitized Core signals only for reusable gaps | feedback records |
 | Core capability runtime loading | any recorded Core package | Not installed by default | install from local repo, extracted package folder, or zip package when needed | `install_core_capabilities.py`, capability-load record, local checks |
 
 ## Upgrade History
@@ -84,6 +85,7 @@ Date aligned: 2026-07-03
 | Date | Core release | State | Applied changes | Verification |
 |---|---|---|---|---|
 | 2026-07-03 | `ws-core-v0.3.0` | Applied | Template baseline with entry, manifest, records, minimal project skeleton, sync instructions, and checks | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
+| 2026-07-09 | `ws-core-v0.3.1` | Applied | Patch installer/checker so Core runtime loading includes capability-radar agent and skill | `check_workspace_deployment`, `check_sync`, `verify_open_box` |
 
 ## Workspace Local Decisions
 
@@ -96,6 +98,7 @@ Date aligned: 2026-07-03
 | 2026-07-03 | Keep feedback local-first | Workspace can self-repair; Core receives sanitized reusable signals only |
 | 2026-07-03 | Keep runnable Core agents/skills installable but not assumed | Template can load capability runtime files from a local Core repo, extracted package folder, or zip package; runtime refresh may require reopening Codex |
 | 2026-07-04 | Standardize runtime visibility test-thread closure | A narrow test thread may verify runtime visibility; the source thread must read back, confirm current Workspace state, update records, and archive the test thread |
+| 2026-07-09 | Include capability-radar in Core runtime loading | Prevent a false pass where Core installation reports no missing files while skipping radar agent and skill |
 
 ## Feedback To WorkSeed Core
 

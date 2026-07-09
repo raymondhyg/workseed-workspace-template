@@ -40,6 +40,8 @@ REQUIRED_PATHS = [
     "scripts/utils/check_network_health_guidance_replay.py",
     "scripts/utils/check_workspace_template_v0_1_3_package_readiness.py",
     "scripts/utils/check_workspace_template_v0_1_3_release_preflight.py",
+    "scripts/utils/check_workspace_template_v0_1_4_package_readiness.py",
+    "scripts/utils/check_workspace_template_v0_1_4_release_preflight.py",
     "scripts/utils/install_core_capabilities.py",
     "templates/first-workspace-initialization-prompt.md",
     "templates/core-runtime-availability-verification-prompt.md",
@@ -53,6 +55,7 @@ REQUIRED_PATHS = [
     "docs/releases/workspace-template-v0.1.1.md",
     "docs/releases/workspace-template-v0.1.2.md",
     "docs/releases/workspace-template-v0.1.3-candidate.md",
+    "docs/releases/workspace-template-v0.1.4.md",
 ]
 
 REQUIRED_SNIPPETS = {
@@ -63,8 +66,8 @@ REQUIRED_SNIPPETS = {
         "Workspace name:",
         "Workspace owner:",
         "Workspace purpose:",
-        "workspace-template-v0.1.2",
-        "ws-core-v0.3.0",
+        "workspace-template-v0.1.4",
+        "ws-core-v0.3.1",
         "Capability runtime state: `not installed by default`",
         "Runtime availability: `not verified`",
         "does not itself prove that",
@@ -79,9 +82,9 @@ REQUIRED_SNIPPETS = {
         "Workspace purpose:",
         "Workspace local path:",
         "Workspace remote:",
-        "Template version: `workspace-template-v0.1.2`",
-        "Core tag: `ws-core-v0.3.0`",
-        "Core commit: `a5b8b7355e02ef26e51d6af53b2bec28a14d08cb`",
+        "Template version: `workspace-template-v0.1.4`",
+        "Core tag: `ws-core-v0.3.1`",
+        "Core commit: `ac576bbf347ef756bfcbf6d8fb2ce03b10646dcc`",
         "Current Capability State",
         "Concrete Core runtime files",
         "Not installed by default",
@@ -91,6 +94,7 @@ REQUIRED_SNIPPETS = {
         "Prism | Not evaluated",
         "Mark | Not evaluated",
         "mira | Not evaluated",
+        "capability-radar | Not evaluated",
         "Mock/read-only only",
     ],
     "docs/sync/starter-github-sync.md": [
@@ -159,6 +163,17 @@ REQUIRED_SNIPPETS = {
         "没有发布 `workspace-template-v0.1.3`",
         "does not claim publication",
     ],
+    "docs/releases/workspace-template-v0.1.4.md": [
+        "WorkSeed Workspace Template v0.1.4",
+        "发布版本：`workspace-template-v0.1.4`",
+        "关联 Core：`ws-core-v0.3.1`",
+        "capability-radar",
+        "missing: none",
+        "skipped: none",
+        "python scripts/utils/install_core_capabilities.py",
+        "python scripts/utils/check_workspace_deployment.py",
+        "python scripts/utils/verify_open_box.py",
+    ],
     "docs/releases/ws-core-v0.3.0-complete-beta-release.md": [
         "WorkSeed Core Release Note",
         "## 中文发布摘要",
@@ -172,8 +187,8 @@ REQUIRED_SNIPPETS = {
     ],
     "README.md": [
         "这是 WorkSeed 的公开 Workspace 模板仓库。",
-        "Core 版本：`ws-core-v0.3.0`",
-        "Template 版本：`workspace-template-v0.1.2`",
+        "Core 版本：`ws-core-v0.3.1`",
+        "Template 版本：`workspace-template-v0.1.4`",
         "当前能力状态：已知道 Core 基线；默认未安装可运行能力文件",
         "Template 知道 Core 0.3，但 Template 本身不等于已经具备 Core 0.3",
         "确认安装",
@@ -341,6 +356,19 @@ REQUIRED_SNIPPETS = {
     ],
     "scripts/utils/check_workspace_template_v0_1_3_release_preflight.py": [
         "Workspace Template v0.1.3 release preflight passed",
+        "RELEASE_REQUIRED_TRACKED_PATHS",
+        "exist in HEAD before tag/archive",
+        "no uncommitted changes",
+        ".codex/.env",
+    ],
+    "scripts/utils/check_workspace_template_v0_1_4_package_readiness.py": [
+        "Workspace Template v0.1.4 package readiness passed",
+        "PACKAGE_REQUIRED_PATHS",
+        "capability-radar",
+        ".codex/.env",
+    ],
+    "scripts/utils/check_workspace_template_v0_1_4_release_preflight.py": [
+        "Workspace Template v0.1.4 release preflight passed",
         "RELEASE_REQUIRED_TRACKED_PATHS",
         "exist in HEAD before tag/archive",
         "no uncommitted changes",
@@ -543,6 +571,7 @@ def main() -> int:
                 fail(f"{record.relative_to(ROOT)} missing post-install field: {snippet}")
 
         required_installed = [
+            ".codex/agents/capability-radar.toml",
             ".codex/agents/mark.toml",
             ".codex/agents/mira.toml",
             ".codex/agents/prism.toml",
@@ -550,6 +579,7 @@ def main() -> int:
             ".codex/agents/workflow-coach.toml",
             ".agents/skills/b2b-strategy/SKILL.md",
             ".agents/skills/background-memory/SKILL.md",
+            ".agents/skills/capability-radar/SKILL.md",
             ".agents/skills/ecommerce-domain/SKILL.md",
             ".agents/skills/image-production/SKILL.md",
             ".agents/skills/prism-writeback/SKILL.md",
